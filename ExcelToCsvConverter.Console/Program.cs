@@ -3,7 +3,6 @@
 using ExcelToCsvConverter.Core;
 using ExcelToCsvConverter.Core.Config;
 using ExcelToCsvConverter.Core.Contracts.Services;
-using ExcelToCsvConverter.Core.Services;
 
 Console.WriteLine("Excel To CSV Converter Console App");
 
