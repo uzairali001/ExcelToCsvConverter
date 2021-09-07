@@ -30,11 +30,11 @@ namespace ExcelToCsvConverter.WPF.Pages
             DataContext = new MainWindowViewModel();
         }
 
-        private readonly Regex _regex = new("[^0-9.-]+"); //regex that matches disallowed text
+        private readonly Regex _regex = new("^[0-9.-]+"); //regex that matches disallowed text
 
-        private void PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void PreviewTextInputSkipRows(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = _regex.IsMatch(e.Text);
+            e.Handled = !_regex.IsMatch(e.Text);
         }
     }
 }

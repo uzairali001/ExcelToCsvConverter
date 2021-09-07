@@ -36,7 +36,7 @@
 
         <Label Content="Skip Rows" HorizontalAlignment="Left" Margin="20,222,0,0" VerticalAlignment="Top"/>
         <TextBox Padding="10, 5" Margin="163,221,53,0" Text="{Binding SkipRows}" TextWrapping="NoWrap" VerticalAlignment="Top"
-            Style="{StaticResource RoundedTextBox}" MaxLength="2" PreviewTextInput="PreviewTextInput"/>
+            Style="{StaticResource RoundedTextBox}" MaxLength="2" PreviewTextInput="PreviewTextInputSkipRows"/>
 
 
         <CheckBox  Content="Overwrite File" HorizontalAlignment="Left" Margin="20,0,0,196" Height="20" VerticalAlignment="Bottom"

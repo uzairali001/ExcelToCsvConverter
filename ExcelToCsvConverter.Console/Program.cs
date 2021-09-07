@@ -1,29 +1,49 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using ExcelToCsvConverter.Core;
+﻿using ExcelToCsvConverter.Core;
 using ExcelToCsvConverter.Core.Config;
 using ExcelToCsvConverter.Core.Contracts.Services;
+using ExcelToCsvConverter.Core.Result;
 
-Console.WriteLine("Excel To CSV Converter Console App");
+namespace ExcelToCsvConverter.ConsoleApp;
 
-
-IExcelToCsvConverterService _excelToCsvConverter = Converter.GetConverter();
-
-while (true)
+public class Program
 {
-    Console.Write("Enter the exel file path:");
-    string? filePath = Console.ReadLine();
-    if (filePath is not null)
+    public static async Task Main(string[] args)
     {
-        Console.WriteLine();
-        var result = await _excelToCsvConverter.ConvertExcelFileToCSV(filePath, new ExcelWriterConfig()
+        Console.WriteLine("Excel To CSV Converter Console App");
+
+        IExcelToCsvConverterService _excelToCsvConverter = Converter.GetConverter();
+
+        string? filePath = AskForInput("Enter the exel file path:");
+        if (string.IsNullOrWhiteSpace(filePath))
         {
-            ColumnSeperator = "$",
-            OptionallyEnclosedBy = "#",
-            OutputFileExtention = "txt",
-            SkipRows = 5,
+            Console.WriteLine("File path is requied and it can't be empty");
+            return;
+        }
+
+        string? columnSeperator = AskForInput("Set Column Seperator (,):");
+        string? enclosedBy = AskForInput("Set Optinally Enclosed By ():");
+        string? outfileExt = AskForInput("Set Output file Extension (csv):");
+        if (int.TryParse(AskForInput("Set Skip rows (0):"), out int skipRows) is false)
+        {
+            skipRows = 0;
+        }
+
+        Console.WriteLine();
+        ExcelWriterResult? result = await _excelToCsvConverter.ConvertExcelFileToCSV(filePath, new ExcelWriterConfig()
+        {
+            ColumnSeperator = columnSeperator ?? ", ",
+            OptionallyEnclosedBy = enclosedBy,
+            OutputFileExtention = outfileExt ?? "csv",
+            SkipRows = skipRows,
         });
         Console.WriteLine("Done");
         Console.WriteLine($"Result: {result} \n");
+        
+    }
+
+    private static string? AskForInput(string title)
+    {
+        Console.Write(title);
+        return Console.ReadLine();
     }
 }
